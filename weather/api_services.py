@@ -6,10 +6,16 @@ class AccuWeather:
     url = "http://127.0.0.1:5000/accuweather"
 
     def _get_fahrenheit(self, my_dict):
-        return int(my_dict["simpleforecast"]["forecastday"][0]['current']["fahrenheit"])
+        return int(
+            my_dict["simpleforecast"]["forecastday"][0]["current"][
+                "fahrenheit"
+            ]
+        )
 
     def request_temp(self, lat, lon):
-        response = requests.get(self.url, params={"latitude": int(lat), "longitude": int(lon)})
+        response = requests.get(
+            self.url, params={"latitude": int(lat), "longitude": int(lon)}
+        )
         return self._get_fahrenheit(json.loads(response.content))
 
 
@@ -17,7 +23,7 @@ class NoaaWeather:
     url = "http://127.0.0.1:5000/noaa"
 
     def _get_fahrenheit(self, my_dict):
-        return int(my_dict["today"]['current']["fahrenheit"])
+        return int(my_dict["today"]["current"]["fahrenheit"])
 
     def request_temp(self, lat, lon):
         lat_long = ",".join((str(lat), str(lon)))
@@ -37,15 +43,17 @@ class DotComWeather:
         F = (C° * 9/5) + 32
         """
         temp = int(my_dict["query"]["results"]["channel"]["condition"]["temp"])
-        if my_dict["query"]["results"]["channel"]["units"]["temperature"] == 'F':
+        if (
+            my_dict["query"]["results"]["channel"]["units"]["temperature"]
+            == "F"
+        ):
             return int(temp)
         else:
             return int(temp * (9 / 5)) + 32
 
     def request_temp(self, lat, lon):
         response = requests.post(
-            self.url,
-            json={"lat": float(lat), "lon": float(lon)},
+            self.url, json={"lat": float(lat), "lon": float(lon)},
         )
         return self._get_fahrenheit(json.loads(response.content))
 
@@ -56,6 +64,7 @@ class GenericWeather:
         "WEATHER_DOT_COM": DotComWeather,
         "ACCUWEATHER": AccuWeather,
     }
+
     @classmethod
     def average_temp_services(cls, services, lat, lon):
         temp_sum = 0
@@ -65,11 +74,3 @@ class GenericWeather:
         amount_of_services_queried = len(services)
         average_temp = temp_sum // amount_of_services_queried
         return average_temp
-
-
-
-#
-# x = DotComWeather()
-# y = AccuWeather()
-# z = NoaaWeather()
-# print(GenericWeather().average_temp_services(services=(x, y, z), lat=33.3, lon=44.4))
