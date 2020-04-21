@@ -8,6 +8,7 @@ service_options = (
 
 
 class AxisForm(forms.Form):
+    "Form that receives latitude, longitude and services."
     latitude = forms.DecimalField(
         required=False,
         label="latitude",

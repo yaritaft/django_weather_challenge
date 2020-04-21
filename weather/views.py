@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from django.views import View
 from .forms import AxisForm
-from .api_services import GenericWeather
+from .weather_classes import AverageWeatherService
+from .exceptions import (
+    NotValidWeatherFormException,
+    ExternalServiceException,
+)
 
 
 class WeatherIndexView(View):
@@ -47,6 +51,11 @@ class WeatherIndexView(View):
         request: HttpRequest
             HTTP Post with latitude, longitude and services to query.
 
+        Raises
+        ------
+        NotValidWeatherFormException
+            If the form sent is not valid.
+
         Returns
         -------
         HttpResponse
@@ -56,11 +65,16 @@ class WeatherIndexView(View):
         form = AxisForm(request.POST)
         services = request.POST.getlist("services")
         lat, lon = request.POST["latitude"], request.POST["longitude"]
-        if form.is_valid() and form.non_field_errors() == []:
-            average_temp = GenericWeather.average_temp_services(
+        try:
+            if not (form.is_valid() and form.non_field_errors() == []):
+                raise NotValidWeatherFormException("Form sent is not valid")
+            average_temp = AverageWeatherService.average_temp_services(
                 services, lat, lon
             )
             return render(
                 request, "weather/results.html", {"average_temp": average_temp}
             )
-        return render(request, "weather/error_message.html",)
+        except NotValidWeatherFormException:
+            return render(request, "weather/error_message.html",)
+        except ExternalServiceException:
+            return render(request, "weather/error_message.html",)
