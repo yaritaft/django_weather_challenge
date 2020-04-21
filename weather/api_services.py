@@ -42,7 +42,9 @@ class DotComWeather:
         will be Celsius so the convertion is applied.
         F = (C° * 9/5) + 32
         """
-        temp = int(my_dict["query"]["results"]["channel"]["condition"]["temp"])
+        temp = int(
+            my_dict["query"]["results"]["channel"]["condition"]["temp"],
+        )
         if (
             my_dict["query"]["results"]["channel"]["units"]["temperature"]
             == "F"
