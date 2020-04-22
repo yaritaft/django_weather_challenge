@@ -8,6 +8,7 @@ from .exceptions import (
 )
 from .validators import check_request_external_api
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -21,43 +22,6 @@ class WeatherService:
     def request_temp(self, lat, lon):
         response = self.request_external_api(lat, lon)
         return self._get_fahrenheit(json.loads(response.content))
-
-    @classmethod
-    def average_temp_services(cls, services, lat, lon):
-        """Calculate average temp for selected services.
-
-        Parameters
-        ----------
-        services : list
-            List of services. Options: NOAA, WEATHER_DOT_COM, ACCUWEATHER.
-
-        Raises
-        ------
-        NotValidWeatherFormException
-            When a service is not in the list of accepted services.
-
-        Returns
-        -------
-        int
-            Average temp calculated taking every selected service.
-        """
-        temp_sum = 0
-        subclasses = cls.__subclasses__()
-        dict_services = {
-            subclass.service_key: subclass for subclass in subclasses
-        }
-
-        for one_service in services:
-            if one_service not in map(
-                lambda subclass: subclass.service_key, cls.__subclasses__()
-            ):
-                logger.exception("Not valid service sent")
-                raise NotValidWeatherFormException("Not valid service sent")
-            one_service = dict_services[one_service]
-            temp_sum += one_service().request_temp(lat, lon)
-        amount_of_services_queried = len(services)
-        average_temp = temp_sum // amount_of_services_queried
-        return average_temp
 
 
 class AccuWeather(WeatherService):
@@ -123,6 +87,11 @@ class DotComWeather(WeatherService):
 
 
 class AverageWeatherService:
+    subclasses = WeatherService.__subclasses__()
+    valid_services = {
+        subclass.service_key: subclass for subclass in subclasses
+    }
+
     @classmethod
     def average_temp_services(cls, services, lat, lon):
         """Calculate average temp for selected services.
@@ -143,16 +112,11 @@ class AverageWeatherService:
             Average temp calculated taking every selected service.
         """
         temp_sum = 0
-        subclasses = WeatherService.__subclasses__()
-        dict_services = {
-            subclass.service_key: subclass for subclass in subclasses
-        }
-
         for one_service in services:
-            if one_service not in dict_services:
+            if one_service not in cls.valid_services:
                 logger.exception("Not valid service sent")
                 raise NotValidWeatherFormException("Not valid service sent")
-            one_service = dict_services[one_service]
+            one_service = cls.valid_services[one_service]
             temp_sum += one_service().request_temp(lat, lon)
         amount_of_services_queried = len(services)
         average_temp = temp_sum // amount_of_services_queried
