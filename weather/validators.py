@@ -16,7 +16,7 @@ def check_request_external_api(logger):
                         "There was an error with these args: %s", *args
                     )
                     raise ExternalServiceException(
-                        f"There was an error with these args: {args}"  # noqa: E999
+                        f"There was an error with these args: {args}"
                     )
                 else:
                     return response
