@@ -1,12 +1,16 @@
 import os
 from dotenv import load_dotenv
+from shutil import copyfile
 
-load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+# Generate .env file if Debug is not set. That means is not prod.
+# And load env variables from that .env file. Only for development.
+if os.getenv("DEBUG") is None:
+    copyfile(f"{BASE_DIR}/.env-copy", f"{BASE_DIR}/.env")
+    load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -16,7 +20,7 @@ SECRET_KEY = "l+kc2af3naj(@h84m706*uu3dz8m3-lys304!y*g=c(mko3$+j"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv("DEBUG", False))
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
 
 # Application definition
 

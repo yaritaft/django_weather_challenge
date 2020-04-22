@@ -1,10 +1,10 @@
 class NotValidWeatherFormException(Exception):
     """Exception for not valid form requests."""
 
-    pass
+    message = "You did not select any service to query."
 
 
 class ExternalServiceException(Exception):
     """Exception for failing external APIs."""
 
-    pass
+    message = "There was an error requesting some external API."

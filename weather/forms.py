@@ -10,8 +10,7 @@ service_options = (
 class AxisForm(forms.Form):
     "Form that receives latitude, longitude and services."
     latitude = forms.DecimalField(
-        required=False,
-        label="latitude",
+        label="Latitude",
         widget=forms.NumberInput(),
         min_value=-180,
         max_value=180,
@@ -19,8 +18,7 @@ class AxisForm(forms.Form):
         decimal_places=2,
     )
     longitude = forms.DecimalField(
-        required=False,
-        label="longitude",
+        label="Longitude",
         widget=forms.NumberInput(),
         min_value=-180,
         max_value=180,
@@ -28,7 +26,5 @@ class AxisForm(forms.Form):
         decimal_places=2,
     )
     services = forms.MultipleChoiceField(
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        choices=service_options,
+        widget=forms.CheckboxSelectMultiple, choices=service_options,
     )

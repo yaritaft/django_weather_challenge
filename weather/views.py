@@ -31,7 +31,7 @@ class WeatherIndexView(View):
             Form html with validations.
         """
         form = {"form": AxisForm()}
-        return render(request, "weather/index.html", form)
+        return render(request, "weather/weather_form.html", form)
 
     def post(self, request):
         """Show results or error message based in data received.
@@ -75,6 +75,14 @@ class WeatherIndexView(View):
                 request, "weather/results.html", {"average_temp": average_temp}
             )
         except NotValidWeatherFormException:
-            return render(request, "weather/error_message.html",)
+            return render(
+                request,
+                "weather/error_message.html",
+                {"message": NotValidWeatherFormException.message},
+            )
         except ExternalServiceException:
-            return render(request, "weather/error_message.html",)
+            return render(
+                request,
+                "weather/error_message.html",
+                {"message": ExternalServiceException.message},
+            )

@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+  django_weather:
+    build: .
+    command: gunicorn -w 1 coderio.wsgi
+    network_mode: host
