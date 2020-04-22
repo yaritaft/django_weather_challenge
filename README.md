@@ -3,9 +3,10 @@
 ## Author
 
 Yari Ivan Taft
-GITHUB: http://github.com/yaritaft
-WEBSITE: http://yaritaft.com
-LINKEDIN: https://www.linkedin.com/in/yari-ivan-taft-4122a7153/
+
+- GITHUB: http://github.com/yaritaft
+- WEBSITE: http://yaritaft.com
+- LINKEDIN: https://www.linkedin.com/in/yari-ivan-taft-4122a7153/
 
 ## Summary
 
@@ -84,4 +85,6 @@ And return to your first terminal the mock-weather-api running and press: Contro
 
 - Django
 - Flask
-
+- Docker
+- Docker-compose
+- Gunicorn
