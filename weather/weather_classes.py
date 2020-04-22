@@ -1,6 +1,7 @@
 import functools
 import json
 import logging
+import os
 import requests
 from .exceptions import (
     NotValidWeatherFormException,
@@ -25,7 +26,8 @@ class WeatherService:
 
 
 class AccuWeather(WeatherService):
-    url = "http://127.0.0.1:5000/accuweather"
+    # url = "http://127.0.0.1:5000/accuweather"
+    url = os.getenv("AccuWeather")
     service_key = "ACCUWEATHER"
 
     def _get_fahrenheit(self, my_dict):
@@ -44,7 +46,8 @@ class AccuWeather(WeatherService):
 
 
 class NoaaWeather(WeatherService):
-    url = "http://127.0.0.1:5000/noaa"
+    # url = "http://127.0.0.1:5000/noaa"
+    url = os.getenv("NoaaWeather")
     service_key = "NOAA"
 
     def _get_fahrenheit(self, my_dict):
@@ -58,7 +61,8 @@ class NoaaWeather(WeatherService):
 
 
 class DotComWeather(WeatherService):
-    url = "http://127.0.0.1:5000/weatherdotcom"
+    # url = "http://127.0.0.1:5000/weatherdotcom"}
+    url = os.getenv("DotComWeather")
     service_key = "WEATHER_DOT_COM"
 
     def _get_fahrenheit(self, my_dict):
