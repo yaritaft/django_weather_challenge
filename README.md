@@ -1,17 +1,10 @@
 # Django weather challenge
 
-## Table of contents
+## Overview
 
-- [Author](#Author)
-- [Overview](#Overview)
-- [Technology](#Technology)
-- [Routes](#Routes)
-- [PreRequisites](#Pre-requisites)
-- [Setup](#Setup)
-- [Tests and code coverage](#Tests-and-code-coverage)
-- [Decisions Made](#Decisions-made)
-- [Assumptions](#Assumptions)
-- [Standards](#Standards)
+The app receives three inputs: latitude, longitude and a list of selected services to query.
+Every external service is queried to gather the current temperature in those coordinates.
+Then an average is calculated in Fahrenheit unit and that result will be shown in the frontend.
 
 ## Author
 
@@ -21,11 +14,16 @@ Yari Ivan Taft
 - Website: http://yaritaft.com
 - LinkedIn: https://www.linkedin.com/in/yari-ivan-taft-4122a7153/
 
-## Overview
+## Table of contents
 
-The app receives three inputs: latitude, longitude and a list of selected services to query.
-Every external service is queried to gather the current temperature in those coordinates.
-Then an average is calculated in Fahrenheit unit and that result will be shown in the frontend.
+- [Technology](#Technology)
+- [Routes](#Routes)
+- [PreRequisites](#Pre-requisites)
+- [Setup](#Setup)
+- [Tests and code coverage](#Tests-and-code-coverage)
+- [Decisions Made](#Decisions-made)
+- [Assumptions](#Assumptions)
+- [Standards](#Standards)
 
 ## Technology
 
