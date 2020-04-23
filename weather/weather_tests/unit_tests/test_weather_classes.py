@@ -1,3 +1,4 @@
+from copy import deepcopy
 from django.http import HttpResponse
 from django.test import TestCase, RequestFactory
 import logging
@@ -18,10 +19,6 @@ from weather.weather_classes import (
 logger = logging.getLogger(__name__)
 
 
-class MyFakeSerivce:
-    pass
-
-
 def json_loader(file_path):
     root_test = os.path.dirname(__file__)
     file_path = os.path.join(root_test, file_path)
@@ -33,7 +30,7 @@ class TestAccuWeatherService(TestCase):
     def setUp(self):
         self.weather_service = AccuWeather()
         self.dict_mock_response = json_loader(
-            "mock_responses/accuweather.json"
+            "../mock_responses/accuweather.json"
         )
         self.json_mock_response = json.dumps(self.dict_mock_response)
         self.request_response = HttpResponse(
@@ -60,7 +57,7 @@ class TestAccuWeatherService(TestCase):
 class TestNoaaWeatherService(TestCase):
     def setUp(self):
         self.weather_service = NoaaWeather()
-        self.dict_mock_response = json_loader("mock_responses/noaa.json")
+        self.dict_mock_response = json_loader("../mock_responses/noaa.json")
         self.json_mock_response = json.dumps(self.dict_mock_response)
         self.request_response = HttpResponse(
             content=self.json_mock_response, status=200
@@ -87,7 +84,7 @@ class TestDotComWeatherService(TestCase):
     def setUp(self):
         self.weather_service = DotComWeather()
         self.dict_mock_response = json_loader(
-            "mock_responses/weatherdotcom.json"
+            "../mock_responses/weatherdotcom.json"
         )
         self.json_mock_response = json.dumps(self.dict_mock_response)
         self.request_response = HttpResponse(
@@ -97,6 +94,14 @@ class TestDotComWeatherService(TestCase):
     def test_get_fahrenheit(self):
         result = self.weather_service._get_fahrenheit(self.dict_mock_response)
         self.assertEqual(result, 37)
+
+    def test_get_fahrenheit_different_unit(self):
+        copy_mock_response = deepcopy(self.dict_mock_response)
+        copy_mock_response["query"]["results"]["channel"]["units"][
+            "temperature"
+        ] = "C"
+        result = self.weather_service._get_fahrenheit(copy_mock_response)
+        self.assertEqual(result, 98)
 
     @mock.patch("weather.weather_classes.DotComWeather.request_external_api")
     def test_request_external_api(self, mock_response):
@@ -127,14 +132,16 @@ class TestAverageWeatherService(TestCase):
     ):
         mock_response_dotcom.return_value = HttpResponse(
             content=json.dumps(
-                json_loader("mock_responses/weatherdotcom.json")
+                json_loader("../mock_responses/weatherdotcom.json")
             )
         )
         mock_response_noaa.return_value = HttpResponse(
-            content=json.dumps(json_loader("mock_responses/noaa.json"))
+            content=json.dumps(json_loader("../mock_responses/noaa.json"))
         )
         mock_response_accu.return_value = HttpResponse(
-            content=json.dumps(json_loader("mock_responses/accuweather.json"))
+            content=json.dumps(
+                json_loader("../mock_responses/accuweather.json")
+            )
         )
         response_1 = self.weather_service.average_temp_services(
             self.tuple_1, 33, 44

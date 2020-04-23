@@ -41,6 +41,7 @@ pip install -r requirements.txt
 FLASK_APP=app.py flask run
 ```
 
+### Dockerized app
 2) Open another terminal and go to repository's root folder. And type:
 ```
 docker-compose build
@@ -53,7 +54,36 @@ docker-compose up
 ```
 docker-compose down
 ```
-And return to your first terminal the mock-weather-api running and press: Control + C
+5) And return to your first terminal the mock-weather-api running and press: Control + C
+
+### Local App
+2) Open another terminal and type:
+```
+python3 -m virtualenv -p python3 venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
+3) Open your browser and enter this url: http://127.0.0.1:8000 and you will be able to use the APP.
+
+4) To shutdown the app press control + C in the second terminal.
+
+5) And return to your first terminal the mock-weather-api running and press: Control + C
+
+## Tests and code coverage
+Unit tests and integration tests were made. Integration tests only work with the API up and running.
+Unit tests have their requests patched to avoid using the mock service.
+
+Being in the virtualenv with dependencies installed and API up, type:
+
+```
+coverage run manage.py test
+coverage report
+```
+
+In this way you will be able to check the code coverage.
+
+Disclaimer: If the API is not up, only unit tests will work because the have their requests mocked.
 
 ## Decisions made
 
@@ -69,10 +99,6 @@ And return to your first terminal the mock-weather-api running and press: Contro
 5) Temperature is expected in Fahrenheit units, since is the only unit shared between three services.
 5) Because of the payload from weather dot com I assume that a celsius temperature may be returned. For that reason I applied a convertion to make it Fahrenheit.
 6) The request should be shown synchronously, as soon as data is available.
-
-## Tests
-
-## Coverage
 
 ## Standards applied
 

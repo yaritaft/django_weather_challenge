@@ -94,6 +94,12 @@ class AverageWeatherService:
     }
 
     @classmethod
+    def _check_service(cls, one_service):
+        if one_service not in cls.valid_services:
+            logger.exception("Not valid service sent")
+            raise NotValidWeatherFormException("Not valid service sent")
+
+    @classmethod
     def average_temp_services(cls, services, lat, lon):
         """Calculate average temp for selected services.
 
@@ -114,9 +120,8 @@ class AverageWeatherService:
         """
         temp_sum = 0
         for one_service in services:
-            if one_service not in cls.valid_services:
-                logger.exception("Not valid service sent")
-                raise NotValidWeatherFormException("Not valid service sent")
+            logger.exception("MY SERVICE: %s", one_service)
+            cls._check_service(one_service)
             one_service = cls.valid_services[one_service]
             temp_sum += one_service().request_temp(lat, lon)
         amount_of_services_queried = len(services)
