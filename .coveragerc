@@ -1,0 +1,18 @@
+ 
+[run]
+branch = True
+omit =
+    */django/utils/autoreload.py
+source = weather
+
+[report]
+ignore_errors = True
+omit =
+    */django/conf/locale/*
+    */env/*
+    */venv/*
+   */node_modules/*
+   manage.py
+
+[html]
+directory = coverage_html

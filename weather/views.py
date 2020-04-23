@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from .forms import AxisForm
+from .forms import WeatherAverageForm
 from .weather_classes import AverageWeatherService
 from .exceptions import (
     NotValidWeatherFormException,
@@ -30,7 +30,7 @@ class WeatherIndexView(View):
         HttpResponse
             Form html with validations.
         """
-        form = {"form": AxisForm()}
+        form = {"form": WeatherAverageForm()}
         return render(request, "weather/weather_form.html", form)
 
     def post(self, request):
@@ -62,7 +62,7 @@ class WeatherIndexView(View):
             Results if the post was successful.
             Error message if there was an error.
         """
-        form = AxisForm(request.POST)
+        form = WeatherAverageForm(request.POST)
         services = request.POST.getlist("services")
         lat, lon = request.POST["latitude"], request.POST["longitude"]
         try:

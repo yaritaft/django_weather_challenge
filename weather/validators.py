@@ -20,10 +20,13 @@ def check_request_external_api(logger):
                     )
                 else:
                     return response
-            except Exception as err:
-                err = "There was an exception in  "
-                err += func.__name__
-                logger.exception(err)
+            except ExternalServiceException:
+                logger.exception("Non 200 Status code in %s", func.__name__)
+                raise
+            except Exception as e:
+                logger.exception(
+                    "No API response in %s Exception: %s", func.__name__, e
+                )
                 raise
 
         return wrapper

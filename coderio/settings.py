@@ -11,6 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if os.getenv("DEBUG") is None:
     copyfile(f"{BASE_DIR}/.env-copy", f"{BASE_DIR}/.env")
     load_dotenv()
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -63,6 +64,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "coderio.wsgi.application"
+
+DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3"}}
 
 
 # Password validation

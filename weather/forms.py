@@ -7,7 +7,7 @@ service_options = (
 )
 
 
-class AxisForm(forms.Form):
+class WeatherAverageForm(forms.Form):
     "Form that receives latitude, longitude and services."
     latitude = forms.DecimalField(
         label="Latitude",
