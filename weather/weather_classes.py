@@ -120,7 +120,6 @@ class AverageWeatherService:
         """
         temp_sum = 0
         for one_service in services:
-            logger.exception("MY SERVICE: %s", one_service)
             cls._check_service(one_service)
             one_service = cls.valid_services[one_service]
             temp_sum += one_service().request_temp(lat, lon)

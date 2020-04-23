@@ -18,10 +18,6 @@ Then an average is calculated in Fahrenheit unit and that result will be shown i
 
 http://127.0.0.1:8000/
 
-## Dependencies
-
-Dependencies may be found in requirements.txt.
-
 ## Pre-requisites
 
 - Docker and docker compose installed.
@@ -62,7 +58,7 @@ docker-compose down
 python3 -m virtualenv -p python3 venv
 source venv/bin/activate
 pip install -r requirements.txt
-python manage.py runserver
+gunicorn coderio.wsgi
 ```
 3) Open your browser and enter this url: http://127.0.0.1:8000 and you will be able to use the APP.
 
@@ -101,6 +97,11 @@ Disclaimer: If the API is not up, only unit tests will work because the have the
 6) The request should be shown synchronously, as soon as data is available.
 
 ## Standards applied
+Precommit hook is set. Every time you want to commit code, black will format the code and then Flake8 will check whether the code follows PEP8 standard or not. To install it in your project type inside virtualenv:
+
+```
+pre-commit install
+```
 
 - Flake8
 - Black formatting
@@ -109,8 +110,9 @@ Disclaimer: If the API is not up, only unit tests will work because the have the
 
 ## Technologies applied
 
-- Django
-- Flask
-- Docker
-- Docker-compose
-- Gunicorn
+- Programming languaje: Python 3
+- APP Framework: Django 3
+- Mockservice Framework: Flask
+- Containers: Docker
+- Containers: Docker-compose
+- Web-server: Gunicorn
