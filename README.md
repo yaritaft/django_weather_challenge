@@ -1,22 +1,43 @@
 # Django weather challenge
 
+## Table of contents
+
+- [Author](#Author)
+- [Overview](#Overview)
+- [Technology](#Technology)
+- [Routes](#Routes)
+- [PreRequisites](#Pre-requisites)
+- [Setup](#Setup)
+- [Tests and code coverage](#Tests-and-code-coverage)
+- [Decisions Made](#Decisions-made)
+- [Assumptions](#Assumptions)
+- [Standards](#Standards)
+
 ## Author
 
 Yari Ivan Taft
 
-- GitHub: http://github.com/yaritaft
+- GitHub: https://github.com/yaritaft
 - Website: http://yaritaft.com
 - LinkedIn: https://www.linkedin.com/in/yari-ivan-taft-4122a7153/
 
-## Summary
+## Overview
 
 The app receives three inputs: latitude, longitude and a list of selected services to query.
 Every external service is queried to gather the current temperature in those coordinates.
 Then an average is calculated in Fahrenheit unit and that result will be shown in the frontend.
 
+## Technology
+
+- Programming languaje: Python 3
+- APP Framework: Django 3
+- Mockservice Framework: Flask
+- Containers: Docker, Docker-compose
+- Web-server: Gunicorn
+
 ## Routes
 
-http://127.0.0.1:8000/
+Main URL: http://127.0.0.1:8000/
 
 ## Pre-requisites
 
@@ -96,7 +117,7 @@ Disclaimer: If the API is not up, only unit tests will work because the have the
 5) Because of the payload from weather dot com I assume that a celsius temperature may be returned. For that reason I applied a convertion to make it Fahrenheit.
 6) The request should be shown synchronously, as soon as data is available.
 
-## Standards applied
+## Standards
 Precommit hook is set. Every time you want to commit code, black will format the code and then Flake8 will check whether the code follows PEP8 standard or not. To install it in your project type inside virtualenv:
 
 ```
@@ -107,12 +128,3 @@ pre-commit install
 - Black formatting
 - PEP8
 - PEP256
-
-## Technologies applied
-
-- Programming languaje: Python 3
-- APP Framework: Django 3
-- Mockservice Framework: Flask
-- Containers: Docker
-- Containers: Docker-compose
-- Web-server: Gunicorn
