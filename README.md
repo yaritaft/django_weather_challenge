@@ -135,7 +135,11 @@ Disclaimer: If the API is not up, only unit tests will work because the have the
 
 ## Standards
 
-- Flake8
-- Black formatting
 - PEP8
-- PEP256
+- PEP257
+- Appnexus (google import order style)
+- Flake8
+- Flake8 Docstrings
+- Flake8 Import Order
+- Black formatting
+
