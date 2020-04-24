@@ -16,8 +16,8 @@ Yari Ivan Taft
 
 ## Badges
 
-- Travis Build [![Build Status](https://travis-ci.org/yaritaft/django_weather_challenge.svg?branch=master)](https://travis-ci.org/yaritaft/django_weather_challenge)
-- Coveralls [![Coverage Status](https://coveralls.io/repos/github/yaritaft/my_django_web_page/badge.svg?branch=master)](https://coveralls.io/github/yaritaft/my_django_web_page?branch=master)
+[![Build Status](https://travis-ci.org/yaritaft/django_weather_challenge.svg?branch=master)](https://travis-ci.org/yaritaft/django_weather_challenge)
+[![Coverage Status](https://coveralls.io/repos/github/yaritaft/my_django_web_page/badge.svg?branch=master)](https://coveralls.io/github/yaritaft/my_django_web_page?branch=master)
 
 ## Table of contents
 
