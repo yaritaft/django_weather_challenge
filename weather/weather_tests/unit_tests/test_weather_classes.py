@@ -5,7 +5,7 @@ import logging
 import os
 import mock
 import json
-from weather.exceptions import NotValidWeatherFormException
+from weather.exceptions import NotValidServicesException
 
 
 from weather.weather_classes import (
@@ -158,7 +158,7 @@ class TestAverageWeatherService(TestCase):
     def test_average_temp_services_error(self):
         self.assertRaises
         (
-            NotValidWeatherFormException,
+            NotValidServicesException,
             self.weather_service.average_temp_services,
             self.tuple_4,
             33,

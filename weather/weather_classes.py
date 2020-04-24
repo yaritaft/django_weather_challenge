@@ -7,7 +7,8 @@ import requests
 
 from weather.exceptions import (
     ExternalServiceException,
-    NotValidWeatherFormException,
+    MissingFieldsException,
+    NotValidServicesException,
 )
 from .validators import check_request_external_api
 
@@ -213,7 +214,7 @@ class AverageWeatherService:
         """
         if one_service not in cls.valid_services:
             logger.exception("Not valid service sent")
-            raise NotValidWeatherFormException("Not valid service sent.")
+            raise NotValidServicesException("Not valid service sent.")
 
     @classmethod
     def average_temp_services(cls, services, lat, lon):
@@ -235,6 +236,10 @@ class AverageWeatherService:
             Average temp calculated taking every selected service.
         """
         temp_sum = 0
+        if services is None or services == []:
+            raise NotValidServicesException
+        if lat is None or lon is None:
+            raise MissingFieldsException
         for one_service in services:
             cls._check_service(one_service)
             one_service = cls.valid_services[one_service]

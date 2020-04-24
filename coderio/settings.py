@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "weather.apps.WeatherConfig",
     "crispy_forms",
+    "rest_framework",
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
