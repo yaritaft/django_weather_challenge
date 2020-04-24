@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils.datastructures import MultiValueDictKeyError
 from django.views import View
 
 from weather.exceptions import (
@@ -64,9 +65,9 @@ class WeatherIndexView(View):
             Error message if there was an error.
         """
         form = WeatherAverageForm(request.POST)
-        services = request.POST.getlist("services")
-        lat, lon = request.POST["latitude"], request.POST["longitude"]
         try:
+            services = request.POST.getlist("services")
+            lat, lon = request.POST["latitude"], request.POST["longitude"]
             if not (form.is_valid() and form.non_field_errors() == []):
                 raise NotValidWeatherFormException("Form sent is not valid")
             average_temp = AverageWeatherService.average_temp_services(
@@ -86,4 +87,10 @@ class WeatherIndexView(View):
                 request,
                 "weather/error_message.html",
                 {"message": ExternalServiceException.message},
+            )
+        except MultiValueDictKeyError:
+            return render(
+                request,
+                "weather/error_message.html",
+                {"message": "Some field was not provided."},
             )

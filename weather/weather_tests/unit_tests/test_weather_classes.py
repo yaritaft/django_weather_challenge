@@ -1,9 +1,8 @@
 from copy import deepcopy
 from django.http import HttpResponse
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 import logging
 import os
-import requests
 import mock
 import json
 from weather.exceptions import NotValidWeatherFormException
