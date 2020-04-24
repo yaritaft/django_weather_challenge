@@ -52,7 +52,6 @@ coverage.xml
 .pytest_cache/
 coverage_html/
 *coverage_html/*
-.coveralls.yml
 
 # Translations
 *.mo
