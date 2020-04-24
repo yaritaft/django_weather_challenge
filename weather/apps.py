@@ -2,4 +2,6 @@ from django.apps import AppConfig
 
 
 class WeatherConfig(AppConfig):
-    name = 'weather'
+    """Weather config for adding it to admin."""
+
+    name = "weather"

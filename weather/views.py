@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.views import View
-from .forms import WeatherAverageForm
-from .weather_classes import AverageWeatherService
-from .exceptions import (
-    NotValidWeatherFormException,
+
+from weather.exceptions import (
     ExternalServiceException,
+    NotValidWeatherFormException,
 )
+from weather.forms import WeatherAverageForm
+from weather.weather_classes import AverageWeatherService
 
 
 class WeatherIndexView(View):

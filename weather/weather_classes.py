@@ -2,10 +2,12 @@ import functools
 import json
 import logging
 import os
+
 import requests
-from .exceptions import (
-    NotValidWeatherFormException,
+
+from weather.exceptions import (
     ExternalServiceException,
+    NotValidWeatherFormException,
 )
 from .validators import check_request_external_api
 
@@ -21,23 +23,68 @@ class WeatherService:
     """
 
     def request_temp(self, lat, lon):
+        """Request temp to subclass service.
+
+        Abstract method to request the subclass to request data,
+        and parse it.
+
+        Parameters
+        ----------
+        lat: float
+            Latitude value. From -180 to 180.
+        lon: float
+            Longitude value. From -180 to 180.
+
+        Returns
+        -------
+        int
+            Current fahrenheit temperature for service queried.
+        """
         response = self.request_external_api(lat, lon)
-        return self._get_fahrenheit(json.loads(response.content))
+        return self.get_fahrenheit(json.loads(response.content))
 
 
 class AccuWeather(WeatherService):
+    """Accu weather service."""
+
     url = os.getenv("AccuWeather")
     service_key = "ACCUWEATHER"
 
-    def _get_fahrenheit(self, my_dict):
+    def get_fahrenheit(self, temp_data):
+        """Get fahrenheit temperature from service.
+
+        Parameters
+        ----------
+        temp_data: dict
+            Temperature data from response content from API queried.
+
+        Returns
+        -------
+        int
+            Fahrenheit current temperature.
+        """
         return int(
-            my_dict["simpleforecast"]["forecastday"][0]["current"][
+            temp_data["simpleforecast"]["forecastday"][0]["current"][
                 "fahrenheit"
             ]
         )
 
     @check_request_external_api(logger)
     def request_external_api(self, lat, lon):
+        """Request external API to provide weather data.
+
+        Parameters
+        ----------
+        lat: float
+            Latitude value. From -180 to 180.
+        lon: float
+            Longitude value. From -180 to 180.
+
+        Returns
+        -------
+        HttpResponse
+            Weather data from external API.
+        """
         response = requests.get(
             self.url, params={"latitude": int(lat), "longitude": int(lon)}
         )
@@ -45,34 +92,75 @@ class AccuWeather(WeatherService):
 
 
 class NoaaWeather(WeatherService):
+    """NOAA weather service."""
+
     url = os.getenv("NoaaWeather")
     service_key = "NOAA"
 
-    def _get_fahrenheit(self, my_dict):
-        return int(my_dict["today"]["current"]["fahrenheit"])
+    def get_fahrenheit(self, temp_data):
+        """Get fahrenheit temperature from service.
+
+        Parameters
+        ----------
+        temp_data: dict
+            Temperature data from response content from API queried.
+
+        Returns
+        -------
+        int
+            Fahrenheit current temperature.
+        """
+        return int(temp_data["today"]["current"]["fahrenheit"])
 
     @check_request_external_api(logger)
     def request_external_api(self, lat, lon):
+        """Request external API to provide weather data.
+
+        Parameters
+        ----------
+        lat: float
+            Latitude value. From -180 to 180.
+        lon: float
+            Longitude value. From -180 to 180.
+
+        Returns
+        -------
+        HttpResponse
+            Weather data from external API.
+        """
         lat_long = ",".join((str(lat), str(lon)))
         response = requests.get(self.url, params={"latlon": lat_long})
         return response
 
 
 class DotComWeather(WeatherService):
+    """Weather dot com service."""
+
     url = os.getenv("DotComWeather")
     service_key = "WEATHER_DOT_COM"
 
-    def _get_fahrenheit(self, my_dict):
-        """
+    def get_fahrenheit(self, temp_data):
+        """Get fahrenheit temperature from service.
+
         Assumption: It have been assumed that if the unit is not Fahrenheit it
         will be Celsius so the convertion is applied.
-        F = (C° * 9/5) + 32
+        Formula: fahrenheit = (celsius° * 9/5) + 32
+
+        Parameters
+        ----------
+        temp_data: dict
+            Temperature data from response content from API queried.
+
+        Returns
+        -------
+        int
+            Fahrenheit current temperature.
         """
         temp = int(
-            my_dict["query"]["results"]["channel"]["condition"]["temp"],
+            temp_data["query"]["results"]["channel"]["condition"]["temp"],
         )
         if (
-            my_dict["query"]["results"]["channel"]["units"]["temperature"]
+            temp_data["query"]["results"]["channel"]["units"]["temperature"]
             == "F"
         ):
             return int(temp)
@@ -81,6 +169,20 @@ class DotComWeather(WeatherService):
 
     @check_request_external_api(logger)
     def request_external_api(self, lat, lon):
+        """Request external API to provide weather data.
+
+        Parameters
+        ----------
+        lat: float
+            Latitude value. From -180 to 180.
+        lon: float
+            Longitude value. From -180 to 180.
+
+        Returns
+        -------
+        HttpResponse
+            Weather data from external API.
+        """
         response = requests.post(
             self.url, json={"lat": float(lat), "lon": float(lon)},
         )
@@ -88,6 +190,8 @@ class DotComWeather(WeatherService):
 
 
 class AverageWeatherService:
+    """Average weather service."""
+
     subclasses = WeatherService.__subclasses__()
     valid_services = {
         subclass.service_key: subclass for subclass in subclasses
@@ -95,6 +199,18 @@ class AverageWeatherService:
 
     @classmethod
     def _check_service(cls, one_service):
+        """Check if the service required is valid.
+
+        Parameters
+        ----------
+        one_service : (subclass) WeatherService
+            A service to query. Examples: NOAA, WEATHER_DOT_COM, ACCUWEATHER.
+
+        Raises
+        ------
+        NotValidWeatherFormException:
+            When a service is not in the list of accepted services.
+        """
         if one_service not in cls.valid_services:
             logger.exception("Not valid service sent")
             raise NotValidWeatherFormException("Not valid service sent")
@@ -106,7 +222,7 @@ class AverageWeatherService:
         Parameters
         ----------
         services : list
-            List of services. Options: NOAA, WEATHER_DOT_COM, ACCUWEATHER.
+            List of services. Examples: NOAA, WEATHER_DOT_COM, ACCUWEATHER.
 
         Raises
         ------

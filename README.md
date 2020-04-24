@@ -55,8 +55,13 @@ source env/bin/activate
 pip install -r requirements.txt
 FLASK_APP=app.py flask run
 ```
+### How to run the APP
 
-### Dockerized app
+You have two way of running the App:
+- Using docker-compose.
+- Using your local python interpreter.
+
+#### Docker
 2) Open another terminal and go to repository's root folder. And type:
 ```
 docker-compose build
@@ -71,7 +76,7 @@ docker-compose down
 ```
 5) And return to your first terminal the mock-weather-api running and press: Control + C
 
-### Local App
+#### Local python interpreter
 2) Open another terminal and type:
 ```
 python3 -m virtualenv -p python3 venv
@@ -84,6 +89,14 @@ gunicorn coderio.wsgi
 4) To shutdown the app press control + C in the second terminal.
 
 5) And return to your first terminal the mock-weather-api running and press: Control + C
+
+#### Precommit install
+
+Precommit hook is set. Every time you want to commit code, black will format the code and then Flake8 will check whether the code follows PEP8 standard or not. To install it in your project type inside virtualenv:
+
+```
+pre-commit install
+```
 
 ## Tests and code coverage
 Unit tests and integration tests were made. Integration tests only work with the API up and running.
@@ -116,11 +129,6 @@ Disclaimer: If the API is not up, only unit tests will work because the have the
 6) The request should be shown synchronously, as soon as data is available.
 
 ## Standards
-Precommit hook is set. Every time you want to commit code, black will format the code and then Flake8 will check whether the code follows PEP8 standard or not. To install it in your project type inside virtualenv:
-
-```
-pre-commit install
-```
 
 - Flake8
 - Black formatting

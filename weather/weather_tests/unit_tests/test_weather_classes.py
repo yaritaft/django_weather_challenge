@@ -37,8 +37,8 @@ class TestAccuWeatherService(TestCase):
             content=self.json_mock_response, status=200
         )
 
-    def test_get_fahrenheit(self):
-        result = self.weather_service._get_fahrenheit(self.dict_mock_response)
+    def testget_fahrenheit(self):
+        result = self.weather_service.get_fahrenheit(self.dict_mock_response)
         self.assertEqual(result, 55)
 
     @mock.patch("weather.weather_classes.AccuWeather.request_external_api")
@@ -63,8 +63,8 @@ class TestNoaaWeatherService(TestCase):
             content=self.json_mock_response, status=200
         )
 
-    def test_get_fahrenheit(self):
-        result = self.weather_service._get_fahrenheit(self.dict_mock_response)
+    def testget_fahrenheit(self):
+        result = self.weather_service.get_fahrenheit(self.dict_mock_response)
         self.assertEqual(result, 55)
 
     @mock.patch("weather.weather_classes.NoaaWeather.request_external_api")
@@ -91,16 +91,16 @@ class TestDotComWeatherService(TestCase):
             content=self.json_mock_response, status=200
         )
 
-    def test_get_fahrenheit(self):
-        result = self.weather_service._get_fahrenheit(self.dict_mock_response)
+    def testget_fahrenheit(self):
+        result = self.weather_service.get_fahrenheit(self.dict_mock_response)
         self.assertEqual(result, 37)
 
-    def test_get_fahrenheit_different_unit(self):
+    def testget_fahrenheit_different_unit(self):
         copy_mock_response = deepcopy(self.dict_mock_response)
         copy_mock_response["query"]["results"]["channel"]["units"][
             "temperature"
         ] = "C"
-        result = self.weather_service._get_fahrenheit(copy_mock_response)
+        result = self.weather_service.get_fahrenheit(copy_mock_response)
         self.assertEqual(result, 98)
 
     @mock.patch("weather.weather_classes.DotComWeather.request_external_api")

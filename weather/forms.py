@@ -1,14 +1,15 @@
 from django import forms
 
 service_options = (
-    ("NOAA", "noaa"),
-    ("WEATHER_DOT_COM", "weatherdotcom"),
-    ("ACCUWEATHER", "accuweather"),
+    ("NOAA", "Noaa Weather"),
+    ("WEATHER_DOT_COM", "Weather.com"),
+    ("ACCUWEATHER", "Accu Weather"),
 )
 
 
 class WeatherAverageForm(forms.Form):
-    "Form that receives latitude, longitude and services."
+    """Form that receives latitude, longitude and services."""
+
     latitude = forms.DecimalField(
         label="Latitude",
         widget=forms.NumberInput(),

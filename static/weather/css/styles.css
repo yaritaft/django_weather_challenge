@@ -1,0 +1,70 @@
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+    background: black;
+    color: #ffffff;
+    
+  }
+
+  body {
+    font-family: 'Source Sans Pro', sans-serif;
+    line-height: 1.5;
+  }
+
+  .container {
+    max-width: 950px ;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    font-size: x-large;
+  }
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
+  input[type=number]{
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 6px;
+    font-size: large;
+  }
+
+
+/* .post-form {
+    margin: 60px;
+    margin-top: 15px;
+    text-align: center;
+} */
+
+form label {
+
+    display: inline-block;
+    margin: 3px 0px;
+}
+
+ul {
+    text-align: left;
+    list-style: inside;
+  }
+
+.mySubmitButton {
+    border: none;
+}
+
+.mySubmitButtonImg {
+    cursor:pointer;
+    width: 20%;
+    height: auto;
+    border: none;
+    padding: 10px;
+}
+  
+
+  
