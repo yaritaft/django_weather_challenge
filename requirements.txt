@@ -51,3 +51,4 @@ virtualenv==20.0.18
 wcwidth==0.1.9
 zipp==3.1.0
 Flask==0.12.2
+python-coveralls==2.9.3
