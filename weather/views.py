@@ -64,8 +64,8 @@ class WeatherIndexView(View):
             Results if the post was successful.
             Error message if there was an error.
         """
-        form = WeatherAverageForm(request.POST)
         try:
+            form = WeatherAverageForm(request.POST)
             services = request.POST.getlist("services")
             lat, lon = request.POST["latitude"], request.POST["longitude"]
             if not (form.is_valid() and form.non_field_errors() == []):
@@ -93,4 +93,10 @@ class WeatherIndexView(View):
                 request,
                 "weather/error_message.html",
                 {"message": "Some field was not provided."},
+            )
+        except Exception:
+            return render(
+                request,
+                "weather/error_message.html",
+                {"message": "There was an error."},
             )

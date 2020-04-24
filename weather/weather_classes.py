@@ -213,7 +213,7 @@ class AverageWeatherService:
         """
         if one_service not in cls.valid_services:
             logger.exception("Not valid service sent")
-            raise NotValidWeatherFormException("Not valid service sent")
+            raise NotValidWeatherFormException("Not valid service sent.")
 
     @classmethod
     def average_temp_services(cls, services, lat, lon):
