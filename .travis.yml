@@ -10,6 +10,7 @@ install:
   - pip install coveralls
 # To run tests
 script:
+  - python mock-weather-api/app.py &
   - coverage run manage.py test
 # send coverage report to coveralls
 after_success:
