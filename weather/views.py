@@ -126,11 +126,6 @@ def weather_api(request):
     request: HttpRequest
         HTTP Post with latitude, longitude and services to query.
 
-    Raises
-    ------
-    NotValidWeatherFormException
-        If the form sent is not valid.
-
     Returns
     -------
     HttpResponse
