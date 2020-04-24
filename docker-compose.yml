@@ -5,3 +5,7 @@ services:
     build: .
     command: gunicorn -w 1 coderio.wsgi
     network_mode: host
+  mock_api:
+    build: ./mock-weather-api
+    command: python app.py
+    network_mode: host

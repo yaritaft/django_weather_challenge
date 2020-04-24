@@ -53,13 +53,6 @@ Main URL: http://127.0.0.1:8000/
 
 ## Setup
 
-1) First go with a terminal to this folder: mock-weather-api and type this:
-```
-virtualenv env
-source env/bin/activate
-pip install -r requirements.txt
-FLASK_APP=app.py flask run
-```
 ### How to run the APP
 
 You have two way of running the App:
@@ -67,21 +60,28 @@ You have two way of running the App:
 - Using your local python interpreter.
 
 #### Docker
-2) Open another terminal and go to repository's root folder. And type:
+1) Open terminal in repository's root folder. And type:
 ```
 docker-compose build
 docker-compose up
 ```
 
-3) Open your browser and enter this url: http://127.0.0.1:8000 and you will be able to use the APP.
+2) Open your browser and enter this url: http://127.0.0.1:8000 and you will be able to use the APP.
 
-4) To shutdown the app type:
+3) Press Control + C and then type:
 ```
 docker-compose down
 ```
-5) And return to your first terminal the mock-weather-api running and press: Control + C
 
 #### Local python interpreter
+1) First go with a terminal to this folder: mock-weather-api and type this:
+```
+virtualenv env
+source env/bin/activate
+pip install -r requirements.txt
+FLASK_APP=app.py flask run
+```
+
 2) Open another terminal and type:
 ```
 python3 -m virtualenv -p python3 venv
