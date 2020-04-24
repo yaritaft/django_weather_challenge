@@ -14,6 +14,11 @@ Yari Ivan Taft
 - Website: http://yaritaft.com
 - LinkedIn: https://www.linkedin.com/in/yari-ivan-taft-4122a7153/
 
+## Badges
+
+[![Coverage Status](https://coveralls.io/repos/github/yaritaft/django_weather_challenge/badge.svg?branch=master)](https://coveralls.io/github/yaritaft/django_weather_challenge?branch=master)
+[![Build Status](https://travis-ci.com/yaritaft/django_weather_challenge.svg?branch=master)](https://travis-ci.com/yaritaft/django_weather_challenge)
+
 ## Table of contents
 
 - [Technology](#Technology)
