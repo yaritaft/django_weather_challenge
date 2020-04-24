@@ -37,8 +37,6 @@ class TestWeatherView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Some field was not provided.")
 
-    # @mock.patch("weather.weather_classes.NoaaWeather.request_external_api")
-    # def test_post_weather_view_external_service_error_no_response(self, mock_response):
     def test_post_weather_view_not_valid_external_service(self):
         response = self.client.post(
             "/",
