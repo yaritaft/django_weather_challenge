@@ -1,0 +1,16 @@
+language: python
+# python versions
+python:
+  - "3.6.9"
+env:
+  -DJANGO=3.0.5 DB=sqlite3
+# install requirements
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+# To run tests
+script:
+  - coverage run manage.py test
+# send coverage report to coveralls
+after_success:
+  coveralls
