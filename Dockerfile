@@ -13,4 +13,3 @@ RUN pip install -r requirements.txt
 
 # copy project
 COPY . /usr/src/app/
-CMD ["gunicorn","-w","1","coderio.wsgi"]
