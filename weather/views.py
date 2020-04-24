@@ -108,7 +108,7 @@ class WeatherIndexView(View):
 
 @api_view(["POST"])
 @csrf_exempt
-def api_post(request):
+def weather_api(request):
     """Show results or error message based in data received.
 
     Payload:
