@@ -85,18 +85,17 @@ class TestWeatherView(TestCase):
 class TestWeatherApiView(TestCase):
     def test_post_weather_view_api_ok(self):
         response = self.client.post(
-            "/json/",
+            "/api/",
             {"latitude": 33, "longitude": 44, "services": ["NOAA"]},
             content_type="application/json",
         )
         content = json.loads(response.content)
-        logging.exception(content)
         self.assertEqual(content["average_temp"], 55)
         self.assertEqual(response.status_code, 200)
 
     def test_post_weather_view_api_no_latitude(self):
         response = self.client.post(
-            "/json/",
+            "/api/",
             {"longitude": 44, "services": ["NOAA"]},
             content_type="application/json",
         )
@@ -106,7 +105,7 @@ class TestWeatherApiView(TestCase):
 
     def test_post_weather_view_api_no_longitude(self):
         response = self.client.post(
-            "/json/",
+            "/api/",
             {"latitude": 44, "services": ["NOAA"]},
             content_type="application/json",
         )
@@ -116,7 +115,7 @@ class TestWeatherApiView(TestCase):
 
     def test_post_weather_view_api_no_services(self):
         response = self.client.post(
-            "/json/",
+            "/api/",
             {"latitude": 33, "longitude": 44, "services": []},
             content_type="application/json",
         )
@@ -126,7 +125,7 @@ class TestWeatherApiView(TestCase):
 
     def test_post_weather_view_api_wrong_services(self):
         response = self.client.post(
-            "/json/",
+            "/api/",
             {"latitude": 33, "longitude": 44, "services": ["FakeService"]},
             content_type="application/json",
         )
@@ -136,7 +135,7 @@ class TestWeatherApiView(TestCase):
 
     def test_post_weather_view_api_wrong_type_services(self):
         response = self.client.post(
-            "/json/",
+            "/api/",
             {"latitude": 33, "longitude": 44, "services": 33},
             content_type="application/json",
         )
@@ -146,7 +145,7 @@ class TestWeatherApiView(TestCase):
 
     def test_post_weather_view_api_missing_services(self):
         response = self.client.post(
-            "/json/",
+            "/api/",
             {"latitude": 33, "longitude": 44},
             content_type="application/json",
         )
@@ -158,7 +157,7 @@ class TestWeatherApiView(TestCase):
     def test_post_weather_view_external_error_request(self, mock_request):
         mock_request.side_effect = ExternalServiceException
         response = self.client.post(
-            "/json/",
+            "/api/",
             {"latitude": 33, "longitude": 44, "services": ["NOAA"]},
             content_type="application/json",
         )
