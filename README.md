@@ -40,7 +40,8 @@ Yari Ivan Taft
 
 ## Routes
 
-Main URL: http://127.0.0.1:8000/
+API endpoint: http://127.0.0.1:8000/json/
+Front-end URL: http://127.0.0.1:8000/
 
 ## Pre-requisites
 
@@ -102,6 +103,10 @@ Precommit hook is set. Every time you want to commit code, black will format the
 ```
 pre-commit install
 ```
+
+## How to use the API
+
+Inside weather/documentation/postman_collections you will be able to find postman collections with examples of how to query the API to get different results.
 
 ## Tests and code coverage
 Unit tests and integration tests were made. Integration tests only work with the API up and running.

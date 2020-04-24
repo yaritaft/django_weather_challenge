@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "3803d982-b638-4c30-b9a6-c71fb33ca0ae",
+		"name": "django_weather_challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Only NOAA",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"latitude\":44,\n\"longitude\": 33,\n\"services\":[\"NOAA\"]\n}"
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/json/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"json",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NOAA + AccuWeather",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"latitude\":44,\n\"longitude\": 33,\n\"services\":[\"NOAA\", \"ACCUWEATHER\"]\n}"
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/json/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"json",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NOAA+ AccuWeather + DotComWeather",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"latitude\":44,\n\"longitude\": 33,\n\"services\":[\"NOAA\", \"ACCUWEATHER\", \"WEATHER_DOT_COM\"]\n}"
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/json/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"json",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "No services",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"latitude\":44,\n\"longitude\": 33,\n\"services\":[]\n}"
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/json/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"json",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Not valid service",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"latitude\":44,\n\"longitude\": 33,\n\"services\":[\"FAKESERVICE\"]\n}"
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/json/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"json",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Missing fields",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"latitude\":44,\n\"longitude\": 33,\n\"services\":[\"FAKESERVICE\"]\n}"
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/json/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"json",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
