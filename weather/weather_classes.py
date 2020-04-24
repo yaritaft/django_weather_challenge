@@ -1,4 +1,3 @@
-import functools
 import json
 import logging
 import os
@@ -6,7 +5,6 @@ import os
 import requests
 
 from weather.exceptions import (
-    ExternalServiceException,
     MissingFieldsException,
     NotValidServicesException,
 )

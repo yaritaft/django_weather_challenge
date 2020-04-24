@@ -9,8 +9,6 @@ import json
 
 import mock
 
-import logging
-
 
 class TestWeatherView(TestCase):
     def setUp(self):

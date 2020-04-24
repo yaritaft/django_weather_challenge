@@ -1,6 +1,6 @@
 [flake8]
-ignore = E203, E266, E501, W503, F403, F401, D100, D104, D107
+ignore = E203, E266, W503, F403, D100, D104, D107
 max-line-length = 79
 application_import_names = weather
 import-order-style = appnexus
-exclude = .git, manage.py, **__pycache__**, **migrations*, **venv**, venv, **mock-weather-api**, **tests**
+exclude = .git, manage.py, **__pycache__**, **migrations*, **venv**, venv, **mock-weather-api**, **tests**, **settings.py
