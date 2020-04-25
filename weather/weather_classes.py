@@ -211,7 +211,10 @@ class AverageWeatherService:
             When a service is not in the list of accepted services.
         """
         if one_service not in cls.valid_services:
-            logger.exception("Not valid service sent")
+            logger.exception(
+                "Not valid service sent. Exception %s",
+                NotValidServicesException,
+            )
             raise NotValidServicesException("Not valid service sent.")
 
     @classmethod
@@ -235,8 +238,12 @@ class AverageWeatherService:
         """
         temp_sum = 0
         if services is None or services == []:
+            logger.exception("%s", NotValidServicesException)
             raise NotValidServicesException
         if lat is None or lon is None:
+            logger.exception(
+                "Not valid service sent. Exception: %s", MissingFieldsException
+            )
             raise MissingFieldsException
         for one_service in services:
             cls._check_service(one_service)
