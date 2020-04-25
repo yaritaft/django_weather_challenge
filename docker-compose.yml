@@ -3,6 +3,7 @@ version: '3.7'
 services:
   django_weather:
     build: .
+    command: python manage.py collectstatic --noinput
     command: gunicorn -w 1 coderio.wsgi
     network_mode: host
   mock_api:
