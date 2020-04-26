@@ -123,7 +123,7 @@ class NoaaWeather(WeatherService):
         HttpResponse
             Weather data from external API.
         """
-        lat_long = ",".join((str(lat), str(lon)))
+        lat_long = ",".join((str(int(lat)), str(int(lon))))
         response = requests.get(self.url, params={"latlon": lat_long})
         return response
 

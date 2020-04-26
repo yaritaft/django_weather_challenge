@@ -79,6 +79,7 @@ class WeatherIndexView(View):
                 serializer["lat"],
                 serializer["lon"],
             )
+            logger.exception("2")
             average_temp = AverageWeatherService.average_temp_services(
                 services, lat, lon
             )

@@ -1,4 +1,4 @@
-from marshmallow import pre_load
+from marshmallow import EXCLUDE, pre_load
 from marshmallow.validate import Length, OneOf, Range
 from rest_marshmallow import fields, Schema
 
@@ -46,6 +46,9 @@ class AverageTempFormRequestSchema(Schema):
       longitude: float
       services: ["ACCUWEATHER, WEATHER_DOT_COM, NOAA]
     """
+
+    class Meta:
+        unknown = EXCLUDE
 
     lat = fields.Float(
         load_only=True,
