@@ -1,12 +1,13 @@
 from copy import deepcopy
-from django.http import HttpResponse
-from django.test import TestCase
+import json
 import logging
 import os
-import mock
-import json
-from weather.exceptions import NotValidServicesException
 
+import mock
+from django.http import HttpResponse
+from django.test import TestCase
+
+from marshmallow.exceptions import ValidationError
 
 from weather.weather_classes import (
     AccuWeather,
@@ -158,7 +159,7 @@ class TestAverageWeatherService(TestCase):
     def test_average_temp_services_error(self):
         self.assertRaises
         (
-            NotValidServicesException,
+            ValidationError,
             self.weather_service.average_temp_services,
             self.tuple_4,
             33,

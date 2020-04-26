@@ -5,8 +5,7 @@ import os
 import requests
 import mock
 import json
-from weather.exceptions import NotValidServicesException
-
+from marshmallow.exceptions import ValidationError
 
 from weather.weather_classes import AverageWeatherService
 
@@ -33,13 +32,3 @@ class TestIntegrationAverageWeatherService(TestCase):
         self.assertEqual(response_1, 55)
         self.assertEqual(response_2, 55)
         self.assertEqual(response_3, 49)
-
-    def test_integration_average_temp_services_error(self):
-        with self.assertRaises(NotValidServicesException):
-            AverageWeatherService().average_temp_services(
-                ("MyFakeService",), 33, 44
-            )
-
-    def test_check_service_error(self):
-        with self.assertRaises(NotValidServicesException):
-            AverageWeatherService()._check_service("MyFakeService")

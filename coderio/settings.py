@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "weather.apps.WeatherConfig",
     "crispy_forms",
     "rest_framework",
+    "drf_yasg",
 ]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 CRISPY_TEMPLATE_PACK = "bootstrap4"

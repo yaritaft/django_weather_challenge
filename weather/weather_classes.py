@@ -4,11 +4,7 @@ import os
 
 import requests
 
-from weather.exceptions import (
-    MissingFieldsException,
-    NotValidServicesException,
-)
-from .validators import check_request_external_api
+from weather.validators import check_request_external_api
 
 
 logger = logging.getLogger(__name__)
@@ -197,27 +193,6 @@ class AverageWeatherService:
     }
 
     @classmethod
-    def _check_service(cls, one_service):
-        """Check if the service required is valid.
-
-        Parameters
-        ----------
-        one_service : (subclass) WeatherService
-            A service to query. Examples: NOAA, WEATHER_DOT_COM, ACCUWEATHER.
-
-        Raises
-        ------
-        NotValidWeatherFormException:
-            When a service is not in the list of accepted services.
-        """
-        if one_service not in cls.valid_services:
-            logger.exception(
-                "Not valid service sent. Exception %s",
-                NotValidServicesException,
-            )
-            raise NotValidServicesException("Not valid service sent.")
-
-    @classmethod
     def average_temp_services(cls, services, lat, lon):
         """Calculate average temp for selected services.
 
@@ -237,16 +212,7 @@ class AverageWeatherService:
             Average temp calculated taking every selected service.
         """
         temp_sum = 0
-        if services is None or services == []:
-            logger.exception("%s", NotValidServicesException)
-            raise NotValidServicesException
-        if lat is None or lon is None:
-            logger.exception(
-                "Not valid service sent. Exception: %s", MissingFieldsException
-            )
-            raise MissingFieldsException
         for one_service in services:
-            cls._check_service(one_service)
             one_service = cls.valid_services[one_service]
             temp_sum += one_service().request_temp(lat, lon)
         amount_of_services_queried = len(services)

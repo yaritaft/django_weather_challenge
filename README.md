@@ -40,8 +40,9 @@ Yari Ivan Taft
 
 ## Routes
 
-API endpoint: http://127.0.0.1:8000/json/
-Front-end URL: http://127.0.0.1:8000/
+- API endpoint: http://127.0.0.1:8000/api/
+- API swagger: http://127.0.0.1:8000/swagger/
+- Front-end URL: http://127.0.0.1:8000/
 
 ## Pre-requisites
 
@@ -106,7 +107,9 @@ pre-commit install
 
 ## How to use the API
 
-Inside weather/documentation/postman_collections you will be able to find postman collections with examples of how to query the API to get different results.
+When running the APP you can go to this URL with your browser: http://127.0.0.1:8000/swagger/
+There you will be able find how to make requests you will also be able to test the API directly from there without having to use postman or curl.
+Moreover inside weather/documentation/postman_collections you will be able to find postman collections with examples of how to query the API to get different results if you want to do it that way.
 
 ## Tests and code coverage
 Unit tests and integration tests were made. Integration tests only work with the API up and running.
