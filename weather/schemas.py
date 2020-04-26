@@ -1,7 +1,7 @@
+from marshmallow import pre_load
 from marshmallow.validate import Length, OneOf, Range
 from rest_marshmallow import fields, Schema
-from marshmallow import pre_load
-from marshmallow.exceptions import ValidationError
+
 from weather.weather_classes import AverageWeatherService
 
 
@@ -77,17 +77,11 @@ class AverageTempFormRequestSchema(Schema):
         data: QueryDict (mutable)
             request.POST mutable version taken from form.
 
-        Raises
-        -------
-        ValidationError
-            When services is not provided in post request.
-
         Returns
         -------
         QueryDict (mutable)
-            Query dict with a standard type of list.
+            Query dict with a standard type of list or None
+            value if no list was given.
         """
-        if "services" not in data:
-            raise ValidationError
-        data["services"] = data.getlist("services")
+        data["services"] = data.getlist("services", None)
         return data
