@@ -48,6 +48,8 @@ class AverageTempFormRequestSchema(Schema):
     """
 
     class Meta:
+        """Schema metaclass."""
+
         unknown = EXCLUDE
 
     lat = fields.Float(

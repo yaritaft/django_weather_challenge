@@ -3,11 +3,10 @@ import logging
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from marshmallow.exceptions import ValidationError
-from rest_framework.decorators import api_view
+from rest_framework.decorators import APIView
 
 from weather.exceptions import ExternalServiceException
 from weather.forms import WeatherAverageForm
@@ -20,7 +19,34 @@ from weather.weather_classes import AverageWeatherService
 logger = logging.getLogger(__name__)
 
 
-class WeatherIndexView(View):
+class WeatherResponse:
+    """The average weather is shared but API and Frontend view."""
+
+    def generic_average_weather(self, serializer):
+        """Extract parameters and calculate average temp.
+
+        Parameters
+        ----------
+        serializer : Schema (marshmallow serializer)
+            Marshmallow serializer to valid and gather data.
+
+        Returns
+        -------
+        int
+            Average current temperature.
+        """
+        services, lat, lon = (
+            serializer["services"],
+            serializer["lat"],
+            serializer["lon"],
+        )
+        average_temp = AverageWeatherService.average_temp_services(
+            services, lat, lon
+        )
+        return average_temp
+
+
+class WeatherIndexView(View, WeatherResponse):
     """
     Weather view.
 
@@ -70,19 +96,10 @@ class WeatherIndexView(View):
             Error message if there was an error.
         """
         try:
-            mutable_query_dict = request.POST.copy()
             serializer = AverageTempFormRequestSchema().load(
-                mutable_query_dict
+                request.POST.copy()
             )
-            services, lat, lon = (
-                serializer["services"],
-                serializer["lat"],
-                serializer["lon"],
-            )
-            logger.exception("2")
-            average_temp = AverageWeatherService.average_temp_services(
-                services, lat, lon
-            )
+            average_temp = self.generic_average_weather(serializer)
             return render(
                 request, "weather/results.html", {"average_temp": average_temp}
             )
@@ -106,69 +123,65 @@ class WeatherIndexView(View):
             )
 
 
-@swagger_auto_schema(
-    method="POST",
-    operation_description="Request average temp from services.",
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        required=["latitude", "longitude", "services"],
-        properties={
-            "latitude": openapi.Schema(
-                type=openapi.TYPE_NUMBER,
-                format=openapi.FORMAT_FLOAT,
-                description="""Value that indicates the latitude.
-                Can go from -180 to 180.""",
+class WeatherApi(APIView, WeatherResponse):
+    """Weather API view to calcule average current temperature."""
+
+    @swagger_auto_schema(
+        operation_description="Request average temp from services.",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=["latitude", "longitude", "services"],
+            properties={
+                "latitude": openapi.Schema(
+                    type=openapi.TYPE_NUMBER,
+                    format=openapi.FORMAT_FLOAT,
+                    description="""Value that indicates the latitude.
+                    Can go from -180 to 180.""",
+                ),
+                "longitude": openapi.Schema(
+                    type=openapi.TYPE_NUMBER,
+                    format=openapi.FORMAT_FLOAT,
+                    description="""Value that indicates the longitude.
+                    Can go from -180 to 180.""",
+                ),
+                "services": openapi.Schema(
+                    type=openapi.TYPE_ARRAY,
+                    items=openapi.Items(type=openapi.TYPE_STRING),
+                    description="""List of services to query.
+                    Example:
+                        ["NOAA", "ACCUWEATHER", "WEATHER_DOT_COM"]
+                    """,
+                ),
+            },
+        ),
+        responses={
+            200: openapi.Response(
+                "Average current temp from services queried in Fahrenheint."
             ),
-            "longitude": openapi.Schema(
-                type=openapi.TYPE_NUMBER,
-                format=openapi.FORMAT_FLOAT,
-                description="""Value that indicates the longitude.
-                Can go from -180 to 180.""",
-            ),
-            "services": openapi.Schema(
-                type=openapi.TYPE_ARRAY,
-                items=openapi.Items(type=openapi.TYPE_STRING),
-                description="""List of services to query.
-                Example:
-                    ["NOAA", "ACCUWEATHER", "WEATHER_DOT_COM"]
-                """,
+            400: openapi.Response(
+                """When services, latitude or longitud
+                are not provided properly."""
             ),
         },
-    ),
-    security=[],
-    tags=["weather"],
-    responses={
-        200: openapi.Response(
-            "Average current temp from services queried in Fahrenheint."
-        ),
-        400: openapi.Response(
-            "When services, latitude or longitud are not provided properly."
-        ),
-    },
-)
-@api_view(["POST"])
-@csrf_exempt
-def weather_api(request):  # noqa: D103
-    try:
-        serializer = AverageTempRequestSchema().loads(request.body)
-        services, lat, lon = (
-            serializer["services"],
-            serializer["lat"],
-            serializer["lon"],
-        )
-        average_temp = AverageWeatherService.average_temp_services(
-            services, lat, lon
-        )
+    )
+    def post(self, request):  # noqa: D102
+        try:
+            serializer = AverageTempRequestSchema().loads(request.body)
+            average_temp = self.generic_average_weather(serializer)
 
-        return JsonResponse(data={"average_temp": average_temp}, status=200)
-    except ExternalServiceException:
-        return JsonResponse(
-            data={"message": ExternalServiceException.message}, status=400
-        )
-    except ValidationError:
-        return JsonResponse(
-            data={"message": "Some fields are not right."}, status=400
-        )
-    except Exception as e:
-        logger.exception("This exception was raised. %s", e)
-        return JsonResponse(data={"message": "There is an error."}, status=400)
+            return JsonResponse(
+                data={"average_temp": average_temp}, status=200
+            )
+        except ExternalServiceException:
+            return JsonResponse(
+                data={"message": ExternalServiceException.message}, status=400
+            )
+        except ValidationError:
+            return JsonResponse(
+                data={"message": "Some fields are not right."}, status=400
+            )
+        except Exception as e:
+            logger.exception("This exception was raised. %s", e)
+            return JsonResponse(
+                data={"message": "There is an error."}, status=400
+            )
