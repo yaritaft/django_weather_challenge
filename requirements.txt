@@ -14,7 +14,7 @@ distlib==0.3.0
 Django==3.0.7
 django-crispy-forms==1.9.0
 django-rest-marshmallow==4.0.2
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 docopt==0.6.2
 drf-yasg==1.17.1
 entrypoints==0.3
