@@ -11,7 +11,7 @@ coreschema==0.0.4
 coverage==4.5.4
 coveralls==2.0.0
 distlib==0.3.0
-Django==3.0.7
+Django==3.1.12
 django-crispy-forms==1.9.0
 django-rest-marshmallow==4.0.2
 djangorestframework==3.11.0
